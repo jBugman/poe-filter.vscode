@@ -1,31 +1,296 @@
 {
 	"$schema": "https://raw.githubusercontent.com/martinring/tmlanguage/master/tmlanguage.json",
-	"name": "PoE Filter",
+	"name": "PoE Item Filter",
 	"patterns": [
 		{
-			"include": "#keywords"
+			"include": "#section"
 		},
 		{
-			"include": "#strings"
+			"include": "#comment"
 		}
 	],
 	"repository": {
-		"keywords": {
-			"patterns": [{
-				"name": "keyword.control.poe-filter",
-				"match": "\\b(if|while|for|return)\\b"
-			}]
-		},
-		"strings": {
-			"name": "string.quoted.double.poe-filter",
-			"begin": "\"",
-			"end": "\"",
+		"section": {
 			"patterns": [
 				{
-					"name": "constant.character.escape.poe-filter",
-					"match": "\\\\."
+					"name": "meta.section.header.filter",
+					"match": "^\\s*(Hide|Show)\\s*$",
+					"captures": {
+						"1": {
+							"name": "keyword.control.section.filter"
+						}
+					}
+				},
+				{
+					"name": "meta.condition.class.filter",
+					"match": "^\\s*(Class)\\s+(.*?)\\s*$",
+					"captures": {
+						"1": {
+							"name": "variable.language.key.filter"
+						},
+						"2": {
+							"patterns": [
+								{
+									"name": "meta.condition.class.names.filter",
+									"match": "(.*)",
+									"captures": {
+										"1": {
+											"patterns": [
+												{
+													"include": "#string"
+												}
+											]
+										}
+									}
+								}
+							]
+						}
+					}
+				},
+				{
+					"name": "meta.condition.baseType.filter",
+					"match": "^\\s*(BaseType)\\s+(.*?)\\s*$",
+					"captures": {
+						"1": {
+							"name": "variable.language.key.filter"
+						},
+						"2": {
+							"patterns": [
+								{
+									"name": "meta.condition.baseType.names.filter",
+									"match": "(.*)",
+									"captures": {
+										"1": {
+											"patterns": [
+												{
+													"include": "#string"
+												}
+											]
+										}
+									}
+								}
+							]
+						}
+					}
+				},
+				{
+					"name": "meta.condition.rarity.filter",
+					"match": "^\\s*(Rarity)\\s+(.*)\\s*$",
+					"captures": {
+						"1": {
+							"name": "variable.language.key.filter"
+						},
+						"2": {
+							"patterns": [
+								{
+									"include": "#comparison"
+								}
+							]
+						}
+					}
+				},
+				{
+					"name": "meta.condition.sockets.filter",
+					"match": "^\\s*(LinkedSockets|Sockets)\\s+(.*)\\s*$",
+					"captures": {
+						"1": {
+							"name": "variable.language.key.filter"
+						},
+						"2": {
+							"patterns": [
+								{
+									"include": "#comparison"
+								}
+							]
+						}
+					}
+				},
+				{
+					"name": "meta.condition.socketGroup.filter",
+					"match": "^\\s*(SocketGroup)\\s+(.*)\\s*$",
+					"captures": {
+						"1": {
+							"name": "variable.language.key.filter"
+						},
+						"2": {
+							"patterns": [
+								{
+									"include": "#string"
+								}
+							]
+						}
+					}
+				},
+				{
+					"name": "meta.condition.elderShaper.filter",
+					"match": "^\\s*(ElderItem|ShaperItem)\\s+(true|false)\\s*$",
+					"captures": {
+						"1": {
+							"name": "variable.language.key.filter"
+						},
+						"2": {
+							"name": "constant.language.boolean.filter"
+						}
+					}
+				},
+				{
+					"name": "meta.condition.influence.filter",
+					"match": "^\\s*(HasInfluence)\\s+(.*)\\s*$",
+					"captures": {
+						"1": {
+							"name": "variable.language.key.filter"
+						},
+						"2": {
+							"patterns": [
+								{
+									"include": "#string"
+								}
+							]
+						}
+					}
+				},
+				{
+					"name": "meta.condition.size.filter",
+					"match": "^\\s*(Width|Height)\\s+(.*)\\s*$",
+					"captures": {
+						"1": {
+							"name": "variable.language.key.filter"
+						},
+						"2": {
+							"patterns": [
+								{
+									"include": "#comparison"
+								}
+							]
+						}
+					}
+				},
+				{
+					"name": "meta.condition.defenseValues.filter",
+					"match": "^\\s*(BaseArmour|BaseEvasion|BaseEnergyShield)\\s+(.*)\\s*$",
+					"captures": {
+						"1": {
+							"name": "variable.language.key.filter"
+						},
+						"2": {
+							"patterns": [
+								{
+									"include": "#comparison"
+								}
+							]
+						}
+					}
+				},
+				{
+					"name": "meta.actions.setFontSize.filter",
+					"match": "^\\s*(SetFontSize)\\s+(\\d+)\\s*$",
+					"captures": {
+						"1": {
+							"name": "entity.name.function.filter"
+						},
+						"2": {
+							"name": "constant.numeric.filter"
+						}
+					}
+				},
+				{
+					"name": "meta.actions.setColor.filter",
+					"match": "^\\s*(SetBorderColor|SetBackgroundColor)\\s+(.*?)\\s*$",
+					"captures": {
+						"1": {
+							"name": "entity.name.function.filter"
+						},
+						"2": {
+							"patterns": [
+								{
+									"name": "meta.actions.value.filter",
+									"match": "(\\d+)\\s+(\\d+)\\s+(\\d+)\\s+(\\d+)",
+									"captures": {
+										"1": {
+											"name": "constant.numeric.filter"
+										},
+										"2": {
+											"name": "constant.numeric.filter"
+										},
+										"3": {
+											"name": "constant.numeric.filter"
+										},
+										"4": {
+											"name": "constant.numeric.filter"
+										}
+									}
+								}
+							]
+						}
+					}
+				},
+				{
+					"name": "meta.action.disableDropSound.filter",
+					"match": "^\\s*(DisableDropSound)\\s+(true|false)\\s*$",
+					"captures": {
+						"1": {
+							"name": "entity.name.function.filter"
+						},
+						"2": {
+							"name": "constant.language.boolean.filter"
+						}
+					}
+				},
+				{
+					"name": "meta.action.continue.filter",
+					"match": "^\\s*(Continue)\\s*$",
+					"captures": {
+						"1": {
+							"name": "keyword.control.continue.filter"
+						}
+					}
 				}
 			]
+		},
+		"comparison": {
+			"patterns": [
+				{
+					"name": "meta.comparison.filter",
+					"match": "([<=>]{0,2})\\s*(.*)",
+					"captures": {
+						"1": {
+							"name": "keyword.operator.comparison.filter"
+						},
+						"2": {
+							"patterns": [
+								{
+									"name": "meta.comparison.value.numeric.filter",
+									"match": "(\\d+)",
+									"captures": {
+										"1": {
+											"name": "constant.numeric.filter"
+										}
+									}
+								},
+								{
+									"name": "meta.comparison.value.rarity.filter",
+									"match": "(Normal|Magic|Rare|Unique)",
+									"captures": {
+										"1": {
+											"name": "constant.other.rarity.filter"
+										}
+									}
+								}
+							]
+						}
+					}
+				}
+			]
+		},
+		"comment": {
+			"name": "comment.line.number-sign.filter",
+			"begin": "#",
+			"end": "$"
+		},
+		"string": {
+			"name": "string.unquoted.filter",
+			"begin": "\"",
+			"end": "\""
 		}
 	},
 	"scopeName": "source.filter"
