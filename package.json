@@ -1,0 +1,34 @@
+{
+  "name": "poe-filter",
+  "displayName": "poe-filter",
+  "description": "PoE Loot Filter code highlight",
+  "version": "0.0.1",
+  "engines": {
+    "vscode": "^1.68.0"
+  },
+  "categories": [
+    "Programming Languages"
+  ],
+  "contributes": {
+    "languages": [
+      {
+        "id": "poe-filter",
+        "aliases": [
+          "PoE Filter",
+          "poe-filter"
+        ],
+        "extensions": [
+          ".filter"
+        ],
+        "configuration": "./language-configuration.json"
+      }
+    ],
+    "grammars": [
+      {
+        "language": "poe-filter",
+        "scopeName": "source.filter",
+        "path": "./syntaxes/poe-filter.tmLanguage.json"
+      }
+    ]
+  }
+}
