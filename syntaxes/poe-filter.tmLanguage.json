@@ -74,6 +74,32 @@
 					}
 				},
 				{
+					"name": "meta.condition.mod.explicit.filter",
+					"match": "^\\s*(HasExplicitMod)\\s+(.*?)\\s*$",
+					"captures": {
+						"1": {
+							"name": "variable.language.key.filter"
+						},
+						"2": {
+							"patterns": [
+								{
+									"name": "meta.condition.baseType.names.filter",
+									"match": "(.*)",
+									"captures": {
+										"1": {
+											"patterns": [
+												{
+													"include": "#string"
+												}
+											]
+										}
+									}
+								}
+							]
+						}
+					}
+				},
+				{
 					"name": "meta.condition.rarity.filter",
 					"match": "^\\s*(Rarity)\\s+(.*)\\s*$",
 					"captures": {
@@ -134,6 +160,18 @@
 									"include": "#comparison"
 								}
 							]
+						}
+					}
+				},
+				{
+					"name": "meta.condition.identified.filter",
+					"match": "^\\s*(Identified)\\s+(true|false)\\s*$",
+					"captures": {
+						"1": {
+							"name": "variable.language.key.filter"
+						},
+						"2": {
+							"name": "constant.language.boolean.filter"
 						}
 					}
 				},
